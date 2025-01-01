@@ -27,7 +27,7 @@ class createModel:
         # reading model file list to get list of every model created
         text = ""
         with open(custom + "/model-list.txt", "r") as file:
-            # If model file exist and person has only 1 length of data that means its \n
+            # If model file exist and it has only 1 length of data that means its \n
             # which means there is no model created yet
             modellist = file.read().split("\n")
             if len(modellist) == 1:
@@ -100,6 +100,7 @@ class createModel:
             ),
         )
         info = ""
+        # If user wants to add something that model should always remember than the data that user eneters will always be saved in and whever the model is called the memory will be loaeded with this data
         if (
             Prompt().ask(
                 f"Do you want to add something to {name}/'s memory ",
@@ -115,8 +116,8 @@ class createModel:
 
         model_file = "FROM " + model + "\n\n" + system + "\n\n" + "\n\n"
 
-        # print("\n\n" + model_file)
         text += f"\n{normal}Creating a fresh model based on {highlight}{model}{highlight.replace('[', '[/')}{normal.replace('[', '[/')}"
+        # Checks whether the modellist already exist or not.If not than it will create one
         try:
             with open(custom + f"/models/{name}.txt", "w") as file:
                 pass
@@ -127,9 +128,10 @@ class createModel:
                 "w",
             ) as file:
                 file.write("")
-
         try:
+            # Creating a new model
             ollama.create(model=name, modelfile=model_file)
+            # Saving memory in json file
             with open(custom + f"/models/{name}.txt", "w") as file:
                 file.write("FROM " + model + "\n\n" + system + "\n\n" + "\n\n")
             with open(custom + f"/models/{name}.json", "w") as file:
@@ -147,6 +149,7 @@ class createModel:
                     ),
                     file,
                 )
+            # Adding model name to model list
             with open(custom + "/model-list.txt", "r") as modelslist:
                 text += f"\n{normal}Checking if the model is already in the model list...{normal.replace('[', '[/')}"
                 modellist = modelslist.read()

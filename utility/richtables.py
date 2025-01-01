@@ -5,14 +5,16 @@ from rich.table import Table
 from utility.textSearch import txt
 
 
+# It returns box type based on what user has given
 def box_type():
-    if (txt.search("box_borders", "saves/default/config.conf")) == "HEAVY":
+    box_borders = txt.search("box_borders", "saves/default/config.conf")
+    if box_borders == "HEAVY":
         return box.HEAVY
-    elif (txt.search("box_borders", "saves/default/config.conf")) == "DOUBLE":
+    elif box_borders == "DOUBLE":
         return box.DOUBLE
-    elif (txt.search("box_borders", "saves/default/config.conf")) == "ROUNDED":
+    elif box_borders == "ROUNDED":
         return box.HEAVY
-    elif (txt.search("box_borders", "saves/default/config.conf")) == "SQUARE":
+    elif box_borders == "SQUARE":
         return box.SQUARE
     else:
         return box.SIMPLE
@@ -56,6 +58,7 @@ class Tables:
         table.add_row(text)
         rprint(table)
 
+    # For help
     def multi_table(text):
         width = 0
 
