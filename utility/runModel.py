@@ -308,6 +308,7 @@ class RunModel:
                         ]
                     pngPath = txt.search_image(response, cpath, pngfolder)
                     display_image(pngPath, rectangle, id=id)
+                    # +2 is because of how table works it takes 1 line and 1 onother line to go in new line
                     for _ in range(required_lines + 2):
                         print("")
                     emotions.append(response)
@@ -320,9 +321,9 @@ class RunModel:
                             "content": msg,
                         }
                     )
+                    # save history into the same file
                     with open(cpath + f"/history/{logs}.json", "w") as chats:
                         json.dump(history, chats, indent=2)
-
                     if (
                         int(
                             txt.search("reprint_everytime", "saves/default/config.conf")
@@ -334,6 +335,7 @@ class RunModel:
                     user_input = input("\n" + user_conversation + " ")
             else:
                 self.read(logs)
+                # Without emotion generation
                 user_input = input("\n" + user_conversation + " ")
                 while (
                     user_input.lower()
@@ -368,8 +370,10 @@ class RunModel:
                         self.read(logs)
                     user_input = input("\n" + user_conversation + " ")
 
+    # this is for new run of model
     def new_run(self, model_name):
         pngfolder = txt.search("pngfolder", "saves/default/config.conf")
+        # Since ollama aneki makes model aware about time
         now = str(datetime.datetime.now())
         custom = txt.search("custom_path", "saves/default/config.conf")
         user_conversation = txt.search("user_conversation", "saves/default/config.conf")
@@ -389,11 +393,13 @@ class RunModel:
         max_respose_size = int(
             txt.search("max_respose_size", "saves/default/config.conf")
         )
+        # if directory does not exist then create
         Path(custom + "/history/").mkdir(parents=True, exist_ok=True)
         with open(custom + f"/models/{model_name}.json", "r") as file:
             memory = json.load(file)
             memory[0]["content"] += ". The current time is " + now
 
+            # This will make sure that length of conversation is not greater than max length for optimization
             def length_ret(leng, hist):
                 if leng < len(hist):
                     hist = hist[(len(hist) - leng) + 1 :]
@@ -415,6 +421,8 @@ class RunModel:
                     fcntl.ioctl(1, termios.TIOCGWINSZ, buf)
                     displayresH = buf[3]
                     displayresW = buf[2]
+                    # since normal temrinal eg. vs code cmd shows 0 and 0 as height and
+                    # width aneki uses try to let user know what aneki kitty is made for
                     try:
                         return int(
                             img.height
@@ -429,31 +437,37 @@ class RunModel:
                         )
 
                 emotions = []
+                # load emotion generation model
                 model = ModelCatalog().load_model("slim-emotions-tool")
                 if int(txt.search("auto_clear", "saves/default/config.conf")) >= 1:
                     clear_kitty_image()
 
                 width = int(txt.search("width", "saves/default/config.conf"))
+                # Get measures of terminal in a way that shows how many charactes can be entered and
+                # how many enters do be needed to be hitten in order to get to new line or screen
                 char, lines = shutil.get_terminal_size()
                 pngPath = txt.search_image("joyful", custom, pngfolder)
                 png = Image.open(pngPath)
-                height = (
-                    int(width * png.height / png.width) + 1
-                    if (
-                        int(width * png.height / png.width)
-                        != (width * png.height / png.width)
-                    )
-                    else int(width * png.height / png.width)
-                )
+                # height = (
+                #     int(width * png.height / png.width) + 1
+                #     if (
+                #         int(width * png.height / png.width)
+                #         != (width * png.height / png.width)
+                #     )
+                #     else int(width * png.height / png.width)
+                # )
                 required_lines = requiredLines(png, width, char, lines)
-                rectangle = str(width) + "x" + str(height) + "@" "2x" + str(
+                rectangle = str(width) + "x" + str(required_lines) + "@" "2x" + str(
                     lines - required_lines - 3
                 )
                 space = ""
+                # Since we need to tell table to place some spaces for image we are passing that as empty spaces in
+                # such a way that it will be equal to required lines and of width so that it take up whole space as png
                 for _ in range(required_lines):
                     for _ in range(width):
                         space += " "
                     space += "\n"
+                # To make curser touch the bottom
                 for _ in range(lines):
                     print("")
                 user_input = input("\n" + user_conversation + " ")
@@ -470,30 +484,25 @@ class RunModel:
                         stream=True,
                     )
                     msg = ""
-                    flag = True
+
                     with Live(Table(), auto_refresh=True) as live:
                         response = "joyful"
                         for chunk in stream:
                             msg += chunk["message"]["content"]
                             live.update(Tables.table_with_emotion(msg, space))
-                            if len(msg) > max_respose_size and flag:
-                                response = model.function_call(msg)["llm_response"][
-                                    "emotions"
-                                ][0]
-                                pngPath = txt.search_image(response, custom, pngfolder)
-                                flag = False
-                    live.update(Tables.table_with_emotion(msg, space))
-                    if flag or not flag:
-                        if len(msg) > max_respose_size:
-                            response = model.function_call(msg[: max_respose_size - 1])[
-                                "llm_response"
-                            ]["emotions"][0]
-                        else:
-                            response = model.function_call(msg)["llm_response"][
-                                "emotions"
-                            ][0]
-                        pngPath = txt.search_image(response, custom, pngfolder)
-                        display_image(pngPath, rectangle, id=id)
+
+                    # if message is longer than max_respose_size then we will take only first max_respose_size-1
+                    if len(msg) > max_respose_size:
+                        response = model.function_call(msg[: max_respose_size - 1])[
+                            "llm_response"
+                        ]["emotions"][0]
+                    else:
+                        response = model.function_call(msg)["llm_response"]["emotions"][
+                            0
+                        ]
+                    pngPath = txt.search_image(response, custom, pngfolder)
+                    display_image(pngPath, rectangle, id=id)
+                    # To make curser go below the image and table instead of in table
                     for _ in range(required_lines + 2):
                         print("")
                     emotions.append(response)
@@ -515,6 +524,7 @@ class RunModel:
                             "content": msg,
                         }
                     )
+                    # If topic is set then we will save history by named topic
                     if ask_for_Topic:
                         with open(
                             custom + f"/history/{model_name}-{Topic}.json", "w"
@@ -547,6 +557,7 @@ class RunModel:
                             self.read(f"{model_name}-{now}")
 
                     user_input = input("\n" + user_conversation + " ")
+            # If user doesnt like to see emotion then we will not show emotion
             else:
                 user_input = input("\n" + user_conversation + " ")
                 while (
