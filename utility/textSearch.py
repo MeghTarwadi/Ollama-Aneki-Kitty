@@ -11,10 +11,10 @@ class txt:
                     line = line.replace(" ", "")
                     if line.__contains__("//"):
                         line = line[: line.index("//")]
-                    if text in line:
+                    if text == line[: len(text)]:
                         return line.replace("\n", "").replace(text + "=", "")
-                # print(testlist.index(text))
-            except ValueError:
+                raise
+            except:
                 print(f"Something({text}) is missing from {path}")
                 raise ValueError
 
@@ -24,4 +24,4 @@ class txt:
             Pixels(custom_path + f"/exp/{emotion}.png")
             return custom_path + f"/exp/{emotion}.png"
         except:
-            return "saves/default" + f"/exp/{pngfolder}/{emotion}.png"
+            return "saves/default" + f"/exp/{pngfolder.lower()}/{emotion}.png"
