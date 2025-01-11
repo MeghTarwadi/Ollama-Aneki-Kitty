@@ -34,7 +34,7 @@ class AsciiMerge:
                     for _ in range(len(short[1])):
                         outcome += " "
                 i += 1
-                outcome += "ㅤ"
+                outcome += "​"
                 outcome += "\n"
             return outcome
 

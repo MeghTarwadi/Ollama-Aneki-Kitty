@@ -62,20 +62,20 @@ class createModel:
         custom = txt.search("custom_path", "saves/default/config.conf")
 
         aneki = f"""{asciiart}
-ㅤ                                .d8b.  d8b   db d88888b db   dD d888888b                                 ㅤ
-ㅤ                               d8' `8b 888o  88 88'     88 ,8P'   `88'                                   ㅤ
-ㅤ                               88ooo88 88V8o 88 88ooooo 88,8P      88                                    ㅤ
-ㅤ                               88~~~88 88 V8o88 88~~~~~ 88`8b      88                                    ㅤ
-ㅤ                               88   88 88  V888 88.     88 `88.   .88.                                   ㅤ
-ㅤ                               YP   YP VP   V8P Y88888P YP   YD Y888888P                                 ㅤ
-ㅤ                                                                                                         ㅤ
-ㅤ                                                                                                         ㅤ
-ㅤ .o88b. db    db .d8888. d888888b  .d88b.  .88b  d88.        .88b  d88.  .d88b.  d8888b. d88888b db      ㅤ
-ㅤd8P  Y8 88    88 88'  YP `~~88~~' .8P  Y8. 88'YbdP`88        88'YbdP`88 .8P  Y8. 88  `8D 88'     88      ㅤ
-ㅤ8P      88    88 `8bo.      88    88    88 88  88  88        88  88  88 88    88 88   88 88ooooo 88      ㅤ
-ㅤ8b      88    88   `Y8b.    88    88    88 88  88  88        88  88  88 88    88 88   88 88~~~~~ 88      ㅤ
-ㅤY8b  d8 88b  d88 db   8D    88    `8b  d8' 88  88  88        88  88  88 `8b  d8' 88  .8D 88.     88booo. ㅤ
-ㅤ `Y88P' ~Y8888P' `8888Y'    YP     `Y88P'  YP  YP  YP        YP  YP  YP  `Y88P'  Y8888D' Y88888P Y88888P ㅤ{asciiart.replace("[", "[/")}
+​                                .d8b.  d8b   db d88888b db   dD d888888b                                 ​
+​                               d8' `8b 888o  88 88'     88 ,8P'   `88'                                   ​
+​                               88ooo88 88V8o 88 88ooooo 88,8P      88                                    ​
+​                               88~~~88 88 V8o88 88~~~~~ 88`8b      88                                    ​
+​                               88   88 88  V888 88.     88 `88.   .88.                                   ​
+​                               YP   YP VP   V8P Y88888P YP   YD Y888888P                                 ​
+​                                                                                                         ​
+​                                                                                                         ​
+​ .o88b. db    db .d8888. d888888b  .d88b.  .88b  d88.        .88b  d88.  .d88b.  d8888b. d88888b db      ​
+​d8P  Y8 88    88 88'  YP `~~88~~' .8P  Y8. 88'YbdP`88        88'YbdP`88 .8P  Y8. 88  `8D 88'     88      ​
+​8P      88    88 `8bo.      88    88    88 88  88  88        88  88  88 88    88 88   88 88ooooo 88      ​
+​8b      88    88   `Y8b.    88    88    88 88  88  88        88  88  88 88    88 88   88 88~~~~~ 88      ​
+​Y8b  d8 88b  d88 db   8D    88    `8b  d8' 88  88  88        88  88  88 `8b  d8' 88  .8D 88.     88booo. ​
+​ `Y88P' ~Y8888P' `8888Y'    YP     `Y88P'  YP  YP  YP        YP  YP  YP  `Y88P'  Y8888D' Y88888P Y88888P ​{asciiart.replace("[", "[/")}
         """
         Tables.center_table(aneki)
         text = ""
