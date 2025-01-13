@@ -1,7 +1,7 @@
 ![Ollama-Aneki-Kitty](https://github.com/user-attachments/assets/af1d17b1-ee6f-4bb9-8000-ef2dc9b3e828)
 
 
-**Ollama-Aneki-Kitty is a sleek terminal user interface (TUI) designed specifically for Kitty Terminal, enhancing the experience of using the Ollama-Aneki with high-resolution PNGs instead of pixelated images of emotion. With its intuitive and visually appealing design, it transforms the CLI into a more user-friendly and feature-rich tool.**
+Ollama-Aneki-Kitty is a sleek terminal user interface (TUI) designed specifically for Kitty Terminal, enhancing the experience of using the Ollama-Aneki with high-resolution PNGs instead of pixelated images of emotion. With its intuitive and visually appealing design, it transforms the CLI into a more user-friendly and feature-rich tool.
 
 
 # Features
