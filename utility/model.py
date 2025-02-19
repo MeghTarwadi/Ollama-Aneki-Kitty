@@ -114,8 +114,6 @@ class createModel:
                 default="I am an Otaku. My birthday is on 14th feb.My name is megh",
             )
 
-        model_file = "FROM " + model + "\n\n" + system + "\n\n" + "\n\n"
-
         text += f"\n{normal}Creating a fresh model based on {highlight}{model}{highlight.replace('[', '[/')}{normal.replace('[', '[/')}"
         # Checks whether the modellist already exist or not.If not than it will create one
         try:
@@ -130,7 +128,7 @@ class createModel:
                 file.write("")
         try:
             # Creating a new model
-            ollama.create(model=name, modelfile=model_file)
+            ollama.create(model = name, from_ = model, system = system)
             # Saving memory in json file
             with open(custom + f"/models/{name}.txt", "w") as file:
                 file.write("FROM " + model + "\n\n" + system + "\n\n" + "\n\n")
