@@ -11,6 +11,10 @@ echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━�
 echo -e "${YELLOW}                      OLLAMA-ANEKI-KITTY SETUP                                ${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 
+# Get the absolute path of the current directory
+INSTALL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo -e "${GREEN}Installation directory: ${INSTALL_DIR}${NC}"
+
 # Check if we're running in Kitty terminal
 if ! command -v kitty &> /dev/null && [ "$TERM" != "xterm-kitty" ]; then
     echo -e "${RED}Warning: This script is designed for Kitty terminal which supports icat.${NC}"
@@ -58,39 +62,31 @@ else
     echo -e "${GREEN}Configuration file already exists.${NC}"
 fi
 
-# Create alias in .bashrc if it doesn't exist
-ALIAS_LINE="alias aneki='cd $(pwd) && source venv/bin/activate && python run.py'"
-if ! grep -q "alias aneki=" ~/.bashrc; then
-    echo -e "${GREEN}Adding alias to .bashrc...${NC}"
-    echo "$ALIAS_LINE" >> ~/.bashrc
-    echo -e "${YELLOW}Alias added to .bashrc. You'll need to run 'source ~/.bashrc' or restart your terminal.${NC}"
-else
-    echo -e "${GREEN}Alias already exists in .bashrc.${NC}"
-fi
-
-# Create alias in .zshrc if zsh is installed
-if command -v zsh &> /dev/null; then
-    if [ -f ~/.zshrc ] && ! grep -q "alias aneki=" ~/.zshrc; then
-        echo -e "${GREEN}Adding alias to .zshrc...${NC}"
-        echo "$ALIAS_LINE" >> ~/.zshrc
-        echo -e "${YELLOW}Alias added to .zshrc. You'll need to run 'source ~/.zshrc' or restart your terminal.${NC}"
-    elif [ -f ~/.zshrc ]; then
-        echo -e "${GREEN}Alias already exists in .zshrc.${NC}"
-    fi
-fi
+# Create the executable aneki script
+echo -e "${GREEN}Creating executable script...${NC}"
+cp aneki.sh /tmp/aneki.temp
+sed -i "s|__INSTALL_DIR__|${INSTALL_DIR}|g" /tmp/aneki.temp
+sudo mkdir -p /usr/local/bin
+sudo cp /tmp/aneki.temp /usr/local/bin/aneki
+sudo chmod +x /usr/local/bin/aneki
+rm /tmp/aneki.temp
 
 # Make run.py executable
 chmod +x run.py
 
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo -e "${GREEN}Installation Complete!${NC}"
-echo -e "${YELLOW}To use Ollama-Aneki-Kitty, run one of the following:${NC}"
-echo -e "${BLUE}1. Source your terminal configuration:${NC}"
-echo -e "   ${GREEN}source ~/.bashrc${NC} (for bash)"
-echo -e "   ${GREEN}source ~/.zshrc${NC} (for zsh)"
-echo -e "${BLUE}2. Then, you can use the 'aneki' command from anywhere:${NC}"
+echo -e "${YELLOW}You can now use Ollama-Aneki-Kitty from anywhere by typing:${NC}"
 echo -e "   ${GREEN}aneki${NC} - for the main interface"
 echo -e "   ${GREEN}aneki run [model_name]${NC} - to run a specific model"
 echo -e "   ${GREEN}aneki new${NC} - to create a new model"
 echo -e "   ${GREEN}aneki history${NC} - to view model history"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+
+# Ask if user wants to run aneki now
+echo
+read -p "Do you want to run aneki now? (y/n) " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    aneki
+fi

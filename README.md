@@ -24,6 +24,8 @@
 * **Continue Chats:** Seamlessly continue conversations without losing context
 * **Automatic Saving:** Conversations are stored in JSON format for easy recall
 
+https://github.com/user-attachments/assets/b1120195-777a-45ba-9373-2b0a213c64cb
+
 ### 😊 Emotion Generation Mode
 
 * **Visual Emotions:** Analyzes the emotional tone of responses and displays corresponding high-resolution PNGs
@@ -31,12 +33,16 @@
   * afraid, anger, annoyed, blush, catty, coffee, confused, crying, curious, default, demon, disapproval, disgust, dizzy, embarrassed, evil, excited, happy, heart, joy, laughing, love, music, naughty, pain, peaceful, pleased, proud, sad, scared, shocked, shy, sleepy, smug, surprised, sweat, thinking, wink
 * **Rich Terminal Display:** PNGs render beautifully using Kitty's `icat` functionality
 
+https://github.com/user-attachments/assets/c8d601f8-c597-4230-9e2a-448984e1aeb6
+
 ### 🤖 Custom Model Building
 
 * **Create Personal Models:** Build custom models based on existing ones
 * **Personalized Behavior:** Define unique system prompts for your models
 * **Memory Management:** Add personalized information to your model's memory
 * **No Duplication:** Uses the base model efficiently without duplicating storage
+
+https://github.com/user-attachments/assets/0a8e6b33-1c2e-4381-978e-2bdf9dec4e4d
 
 ### ⚙️ Fully Configurable
 
@@ -46,6 +52,12 @@
 * **Behavior Control:** Fine-tune how conversations are handled and saved
 
 ## Installation
+
+### Prerequisites
+
+* **Terminal:** Kitty terminal for best experience (supports `icat` for PNG display)
+* **Python:** Python 3.6 or higher
+* **Ollama:** Must be installed and configured on your system
 
 ### Quick Setup
 
@@ -61,27 +73,14 @@ chmod +x setup.sh
 ./setup.sh
 ```
 
-### Post-Installation
+The setup script will:
 
-After running the setup script:
+1. Create a virtual environment for dependencies
+2. Install required Python packages
+3. Set up necessary directories and configuration files
+4. Create a system-wide executable command (`aneki`)
 
-1. Restart your terminal or run:
-   ```bash
-   source ~/.bashrc  # If using Bash
-   source ~/.zshrc   # If using Zsh
-   ```
-2. You can now use the `aneki` command from anywhere in your terminal:
-   ```bash
-   aneki           # Start the main interface
-   aneki run phi3  # Run a specific model (if it exists)
-   aneki new       # Create a new model
-   ```
-
-### Requirements
-
-* **Terminal:** Kitty terminal or any terminal that supports `icat` for PNG display
-* **Python:** Python 3.6 or higher
-* **Ollama:** Must be installed and configured on your system
+After installation, you can run the `aneki` command from anywhere in your terminal!
 
 ## Usage
 
@@ -107,6 +106,11 @@ After running the setup script:
 * Inside a conversation, type your exit code (default: `die`) to quit
 * Use `aneki run read` to view past conversations
 * Use `aneki run cont` to continue a previous conversation
+
+### Quitting Properly
+
+* To exit a conversation: type your exit code (default: `die`)
+* To interrupt the program: press `Ctrl+C` - this will safely exit and return you to your original directory
 
 ## Configuration
 
@@ -143,6 +147,18 @@ Place your PNG files in the `saves/custom/exp/` directory with the emotion name 
 1. Edit the ASCII art files in `saves/default/ascii1.txt` or `saves/default/ascii2.txt`
 2. Run `aneki asciiart` to merge the arts
 3. Your custom art will appear in the banner
+
+## Uninstallation
+
+If you need to remove Ollama-Aneki-Kitty:
+
+```bash
+# Remove the executable
+sudo rm /usr/local/bin/aneki
+
+# Remove the directory (optional)
+rm -rf /path/to/ollama-aneki-kitty
+```
 
 ## Contributing
 
