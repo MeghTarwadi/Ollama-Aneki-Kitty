@@ -51,7 +51,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/ollama-aneki-kitty.git
+git clone https://github.com/MeghTarwadi/ollama-aneki-kitty.git
 
 # Navigate to the directory
 cd ollama-aneki-kitty
